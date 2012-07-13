@@ -2,28 +2,6 @@
 
 {% block title %}{% endblock %}
 
-{% block article_links %}
-
-  <center>
-    {% for key in files.iterkeys() %}
-      <h3>{{ key }}</h3>
-      {% for article in files[key] %}
-        <a href="/b/{{ article.slug }}">{{ article.title }}</a></br>
-      {% else %}
-        <div class="alert alert-error">
-          Unbelievable. There's nothing here.
-        </div>
-      {% endfor %}
-      <br />
-    {% else %}
-      <div class="alert alert-error">
-        You must be new, because there don't seem to be any categories yet. Try adding one!
-      </div>
-    {% endfor %}
-  </center>
-
-{% endblock %}
-
 {% block body %}
   {{ blurb|markdown }}
 {% endblock %}

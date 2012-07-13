@@ -39,7 +39,6 @@ Roadmap
 - Logr needs some design work.
 - Performance is not good. Need to index instead of calling listdir so much.
 - Add support for remote hosting of article files via Dropbox
-- There must be a better way to store files. Can you think of such a way?
 
 How It Works
 ============
@@ -53,32 +52,38 @@ The Front Page
 To update the front page  **front.md** in the _pages_ directory and edit it to 
 your liking.
 
-Creating a Category
--------------------
-
-To create a new category, create a subdirectory inside the _articles_
-directory. The name of the directory will be the name of the category.
-
 Creating an Article
 -------------------
 
 Open any text editor and write the article using the Markdown markup language.
-When you're done, save it to the appropriate directory. 
+When you're done, save it to the `articles` directory.
+
+The first line of the file should be the title of the article and the second 
+line should be the category you want the article filed under. The rest of the
+file should contain the Markdown code exactly as you would like it to appear
+on the site.
 
 Example
 -------
 
 If you wanted an article named _An Introduction to Software Engineering_ to
-appear in the _Software_ category, the location of the file would look like
-this:
+appear in the _Software_ category, the file would look like this:
 
- - **/articles/Software/intro\_to\_software\_engineering.md**
+ > **/articles/IntroductionToSoftwareEngineering.md**
+ > --------------------------------------------------
+ > 
+ > An Introduction to Software Engineering
+ > Software
+ > 
+ > An Introduction to Software Engineering
+ > =======================================
+ > - - -
+ > This is a blog article about software engineering and how you can get
+ > started developing cool software.
 
 Notes
 -----
 
- - Anything in the _articles_ directory will show up in the _Miscellaneous_ 
-   category.
  - The title of the article should be the first line of the file. This is what 
    the link of the front page and the slug for the article are generated from. 
    Choose wisely.

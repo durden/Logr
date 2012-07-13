@@ -1,10 +1,16 @@
 # GLOBAL CONFIGURATION
 
 WEBSITE_NAME = 'Logr'
-ARTICLE_DIR = 'articles/'
 DEBUG = True
 
+# ARTICLE AND PAGE CONFIGURATION
+
+ARTICLE_DIR = 'articles/'
+PAGES_DIR = 'pages/'
+
+# NAVBAR CONFIGURATION
 # Add navbar links with dict(title="Title", url="URL)
+
 NAV = [dict(title='Home', url='/')]
        
 # SECURITY CONFIGURATION

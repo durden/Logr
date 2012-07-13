@@ -1,71 +1,56 @@
 import os
-
 from os import listdir
-from os.path import isdir, isfile
 
 from flask import Flask, render_template
 from flaskext.markdown import Markdown
 
-from utils import slugify
+from utils import list_articles, slugify
 
 logr = Flask(__name__)
 logr.config.from_object('config')
+logr.config['ARTICLES'] = list_articles()
 Markdown(logr)
 
 ARTICLE_DIR = logr.config['ARTICLE_DIR']
+PAGES_DIR = logr.config['PAGES_DIR']
+ARTICLES = logr.config['ARTICLES']
 
 @logr.route('/')
 def index():
     """
-    Lists all articles, separated by category. This method maps to the front
-    page.
+    Render a template to hold the front page blurb.
     """
-    # Create a dictionary `files` that separates articles by category.
-    for file_ in listdir(ARTICLE_DIR):
-        if isfile(ARTICLE_DIR + file_) and file_ != 'empty':
-            files = dict(Miscellaneous=[])
-            break
-        files = dict()
+    with open(os.path.join(PAGES_DIR, 'FrontPage.md'), 'r') as f:
+        blurb = f.read().decode('utf8')
 
-    for file_ in listdir(ARTICLE_DIR):
-        if isdir(os.path.join(ARTICLE_DIR, file_)):
-            files[file_] = []
-            for f in listdir(os.path.join(ARTICLE_DIR, file_)):
-                if f.endswith('.md'):
-                    with open(os.path.join(ARTICLE_DIR, file_, f), 'r') as f_open:
-                        title=f_open.readline()
-                        files[file_].append(dict(file_=f, slug=slugify(title), title=title.decode('utf-8')))
-        else:
-            if file_.endswith('.md'):
-                with open(os.path.join(ARTICLE_DIR, file_), 'r') as f_open:
-                    title=f_open.readline()
-                    files['Miscellaneous'].append(dict(file_=file_, slug=slugify(title), title=title.decode('utf-8')))
-
-    blurb = open('pages/front.md', 'r').read()
-
-    return render_template('index.html', files=files, blurb=blurb)
+    return render_template('index.html', articles=ARTICLES, blurb=blurb)
 
 @logr.route('/b/<slug>', methods=['GET'])
 def show(slug):
     """
-    Search the database and retrieve the article whose slug matches <slug>.
-    Render a template to show this article.
+    Search the `articles` directory for an article whose slug matches the URL
+    parameter. When we find the article, render it.
     """
-    for dir_ in listdir(ARTICLE_DIR):
-        if isdir(os.path.join(ARTICLE_DIR, dir_)):
-            for file_ in listdir(os.path.join(ARTICLE_DIR, dir_)):
-                with open(os.path.join(ARTICLE_DIR, dir_, file_), 'r') as f_open:
-                    if slug == slugify(f_open.readline()):
-                        article = os.path.join(ARTICLE_DIR, dir_, file_)
-        else:
-            with open(os.path.join(ARTICLE_DIR, dir_), 'r') as f_open:
-                if slug == slugify(f_open.readline()):
-                    article = os.path.join(ARTICLE_DIR, dir_)
+    # Find the right article
+    for file_ in listdir(ARTICLE_DIR):
+        if file_.endswith('.md'):
+            with open(os.path.join(ARTICLE_DIR, file_), 'r') as f:
+                if slug == slugify(f.readline()):
+                    article = os.path.join(ARTICLE_DIR, file_)
+                    break
 
-    title = open(article, 'r').readline().decode('utf8')
-    source = open(article, 'r').read().decode('utf8')
+    # Now that we've found the right article, let's process it.
+    with open(article, 'r') as f:
+        lines = f.read().split('\n')
+        
+        # We don't need title or category, but it's easier to explicitly state
+        # why we're popping the first two lines.
+        title = lines.pop(0).strip() # Title should appear on the first line
+        category = lines.pop(0).strip() # Category should appear on the second
 
-    return render_template('show.html', article=dict(title=title, source=source))
-
+        source = '\n'.join(lines).decode('utf8')
+        
+    return render_template('show.html', article=dict(source=source))
+    
 if __name__ == '__main__':
     logr.run()
