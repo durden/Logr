@@ -70,7 +70,7 @@ If you wanted an article named _An Introduction to Software Engineering_ to
 appear in the _Software_ category, the file would look like this:
 
  > **/articles/IntroductionToSoftwareEngineering.md**
- > --------------------------------------------------
+ > \--------------------------------------------------
  > 
  > An Introduction to Software Engineering
  > Software
