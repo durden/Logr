@@ -39,6 +39,7 @@ Roadmap
 - Logr needs some design work.
 - Performance is not good. Need to index instead of calling listdir so much.
 - Add support for remote hosting of article files via Dropbox
+- There must be a better way to store files. Can you think of such a way?
 
 How It Works
 ============
