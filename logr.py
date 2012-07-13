@@ -32,6 +32,7 @@ def index():
             files[file_] = []
             for f in listdir(os.path.join(ARTICLE_DIR, file_)):
                 if f.endswith('.md'):
+                    print os.path.join(ARTICLE_DIR, file_, f)
                     with open(os.path.join(ARTICLE_DIR, file_, '/', f), 'r') as f_open:
                         title=f_open.readline()
                         files[file_].append(dict(file_=f, slug=slugify(title), title=title.decode('utf-8')))
