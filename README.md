@@ -26,7 +26,7 @@ Preview
 =======
  - - -
 
-Check out [this](http://www.brewerhimself.com/) site for a preview of the blog!
+You can preview Logr at [The Logr Blog](http://brewerhimself.github.com/Logr)!
 
 Roadmap
 =======
