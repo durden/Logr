@@ -14,6 +14,10 @@ def list_articles():
     Build a dictionary of articles from the `articles directory, separated by 
     category.
     """
+    # Standardised markdown file extensions. In a tuple, so that the
+    # str.endswith method accepts list. If file extension matches nay of these,
+    # 'True' will be returned.
+    extensions = ('.markdown','.mdown','.mkdn','.md','.mkd','.mdwn','.mdtxt','.mdtext','.text')
     articles = dict()
     for file_ in listdir(ARTICLE_DIR):
         if file_.endswith('.md'):
