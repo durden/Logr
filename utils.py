@@ -20,7 +20,7 @@ def list_articles():
     extensions = ('.markdown','.mdown','.mkdn','.md','.mkd','.mdwn','.mdtxt','.mdtext','.text')
     articles = dict()
     for file_ in listdir(ARTICLE_DIR):
-        if file_.endswith('.md'):
+        if file_.endswith(extensions):
             with open(os.path.join(ARTICLE_DIR, file_), 'r') as f:
                 lines = f.read().split('\n')
                 

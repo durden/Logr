@@ -14,6 +14,7 @@ Markdown(logr)
 ARTICLE_DIR = logr.config['ARTICLE_DIR']
 PAGES_DIR = logr.config['PAGES_DIR']
 ARTICLES = logr.config['ARTICLES']
+extensions = ('.markdown','.mdown','.mkdn','.md','.mkd','.mdwn','.mdtxt','.mdtext','.text')
 
 @logr.route('/')
 def index():
@@ -33,7 +34,7 @@ def show(slug):
     """
     # Find the right article
     for file_ in listdir(ARTICLE_DIR):
-        if file_.endswith('.md'):
+        if file_.endswith(extensions)
             with open(os.path.join(ARTICLE_DIR, file_), 'r') as f:
                 if slug == slugify(f.readline()):
                     article = os.path.join(ARTICLE_DIR, file_)
