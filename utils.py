@@ -8,15 +8,13 @@ logr = Flask(__name__)
 logr.config.from_object('config')
 
 ARTICLE_DIR = logr.config['ARTICLE_DIR']
-
+o
 def list_articles():
     """
     Build a dictionary of articles from the `articles directory, separated by 
     category.
     """
-    # Standardised markdown file extensions. In a tuple, so that the
-    # str.endswith method accepts list. If file extension matches nay of these,
-    # 'True' will be returned.
+    # Accept all standard markdown file extensions.
     extensions = ('.markdown','.mdown','.mkdn','.md','.mkd','.mdwn','.mdtxt','.mdtext','.text')
     articles = dict()
     for file_ in listdir(ARTICLE_DIR):
