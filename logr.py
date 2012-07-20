@@ -14,7 +14,7 @@ Markdown(logr)
 ARTICLE_DIR = logr.config['ARTICLE_DIR']
 PAGES_DIR = logr.config['PAGES_DIR']
 ARTICLES = logr.config['ARTICLES']
-extensions = ('.markdown','.mdown','.mkdn','.md','.mkd','.mdwn','.mdtxt','.mdtext','.text')
+EXTENSIONS = logr.config['EXTENSIONS']
 
 @logr.route('/')
 def index():

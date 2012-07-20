@@ -8,17 +8,16 @@ logr = Flask(__name__)
 logr.config.from_object('config')
 
 ARTICLE_DIR = logr.config['ARTICLE_DIR']
+EXTENSIONS = logr.config['EXTENSIONS']
 
 def list_articles():
     """
     Build a dictionary of articles from the `articles directory, separated by 
     category.
     """
-    # Accept all standard markdown file extensions.
-    extensions = ('.markdown','.mdown','.mkdn','.md','.mkd','.mdwn','.mdtxt','.mdtext','.text')
     articles = dict()
     for file_ in listdir(ARTICLE_DIR):
-        if file_.endswith(extensions):
+        if file_.endswith(EXTENSIONS):
             with open(os.path.join(ARTICLE_DIR, file_), 'r') as f:
                 lines = f.read().split('\n')
                 
