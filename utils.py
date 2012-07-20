@@ -8,7 +8,7 @@ logr = Flask(__name__)
 logr.config.from_object('config')
 
 ARTICLE_DIR = logr.config['ARTICLE_DIR']
-o
+
 def list_articles():
     """
     Build a dictionary of articles from the `articles directory, separated by 

@@ -32,13 +32,18 @@ def show(slug):
     Search the `articles` directory for an article whose slug matches the URL
     parameter. When we find the article, render it.
     """
+    article = None
+
     # Find the right article
     for file_ in listdir(ARTICLE_DIR):
-        if file_.endswith(extensions)
+        if file_.endswith(extensions):
             with open(os.path.join(ARTICLE_DIR, file_), 'r') as f:
                 if slug == slugify(f.readline()):
                     article = os.path.join(ARTICLE_DIR, file_)
                     break
+
+    if not article:
+        article = os.path.join(PAGES_DIR, 'article-404.md')
 
     # Now that we've found the right article, let's process it.
     with open(article, 'r') as f:
@@ -46,12 +51,12 @@ def show(slug):
         
         # We don't need title or category, but it's easier to explicitly state
         # why we're popping the first two lines.
-        title = lines.pop(0).strip() # Title should appear on the first line
+        title = lines.pop(0).strip().decode('utf8') # Title should appear on the first line
         category = lines.pop(0).strip() # Category should appear on the second
 
         source = '\n'.join(lines).decode('utf8')
         
-    return render_template('show.html', article=dict(source=source))
+    return render_template('show.html', article=dict(title=title, source=source))
     
 if __name__ == '__main__':
     logr.run()
