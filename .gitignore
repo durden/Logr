@@ -1,1 +1,5 @@
+# Compiled object files.
 *.pyc
+
+# Articles used for testing purposes.
+articles/*

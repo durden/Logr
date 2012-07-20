@@ -7,6 +7,7 @@ DEBUG = True
 
 ARTICLE_DIR = 'articles/'
 PAGES_DIR = 'pages/'
+FRONT_PAGE = 'FrontPage.md'
 
 # NAVBAR CONFIGURATION
 # Add navbar links with dict(title="Title", url="URL)

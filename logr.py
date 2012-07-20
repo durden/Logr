@@ -1,9 +1,8 @@
 import os
-from os import listdir
 
 from flask import Flask, render_template
 from flaskext.markdown import Markdown
-
+from os import listdir
 from utils import list_articles, slugify
 
 logr = Flask(__name__)
@@ -15,16 +14,16 @@ ARTICLE_DIR = logr.config['ARTICLE_DIR']
 PAGES_DIR = logr.config['PAGES_DIR']
 ARTICLES = logr.config['ARTICLES']
 EXTENSIONS = logr.config['EXTENSIONS']
+FRONT_PAGE = logr.config['FRONT_PAGE']
 
 @logr.route('/')
 def index():
     """
-    Render a template to hold the front page blurb.
+    Renders the front page.
     """
-    with open(os.path.join(PAGES_DIR, 'FrontPage.md'), 'r') as f:
-        blurb = f.read().decode('utf8')
-
-    return render_template('index.html', articles=ARTICLES, blurb=blurb)
+    with open(os.path.join(PAGES_DIR, FRONT_PAGE), 'r') as f:
+        source = f.read().decode('utf8')
+    return render_template('index.html', article=ARTICLES, source=source)
 
 @logr.route('/b/<slug>', methods=['GET'])
 def show(slug):
@@ -34,26 +33,25 @@ def show(slug):
     """
     article = None
 
-    # Find the right article
+    # Searching articles ..
     for file_ in listdir(ARTICLE_DIR):
-        if file_.endswith(extensions):
+        if file_.endswith(EXTENSIONS):
             with open(os.path.join(ARTICLE_DIR, file_), 'r') as f:
                 if slug == slugify(f.readline()):
                     article = os.path.join(ARTICLE_DIR, file_)
                     break
 
+    # If we didn't find the article, it doesn't exist.
     if not article:
         article = os.path.join(PAGES_DIR, 'article-404.md')
 
-    # Now that we've found the right article, let's process it.
     with open(article, 'r') as f:
         lines = f.read().split('\n')
-        
-        # We don't need title or category, but it's easier to explicitly state
-        # why we're popping the first two lines.
-        title = lines.pop(0).strip().decode('utf8') # Title should appear on the first line
-        category = lines.pop(0).strip() # Category should appear on the second
-
+        # Title should be the first line of the file. 
+        title = lines.pop(0).strip().decode('utf8')
+        # Category should be second.
+        category = lines.pop(0).strip().decode('utf8')
+        # The rest is the article itself.
         source = '\n'.join(lines).decode('utf8')
         
     return render_template('show.html', article=dict(title=title, source=source))
